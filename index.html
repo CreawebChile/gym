@@ -40,55 +40,72 @@
             <h2 class="animate__animated animate__fadeIn">Promociones Especiales</h2>
             <div class="swiper promotionsSwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide promo-card">
-                        <div class="promo-content">
-                            <span class="promo-tag">¡Plan Parejas!</span>
-                            <h3>2x1 en Membresías</h3>
-                            <p>Entrena con tu pareja y obtén 50% de descuento en la segunda membresía</p>
-                            <ul>
-                                <li><i class="fas fa-check"></i> Acceso ilimitado para ambos</li>
-                                <li><i class="fas fa-check"></i> 1 clase grupal gratis</li>
-                                <li><i class="fas fa-check"></i> Evaluación física inicial</li>
-                            </ul>
-                            <button class="promo-button" @click="selectPromo('parejas')">
-                                <i class="fas fa-heart"></i> ¡Obtener Ahora!
-                            </button>
+                    <div class="swiper-slide">
+                        <div class="promo-card">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Plan Parejas!</span>
+                                <h3>2x1 en Membresías</h3>
+                                <p>Entrena con tu pareja y obtén 50% de descuento</p>
+                                <button class="promo-button" data-promo="parejas" @click="handlePromoClick('parejas')">
+                                    <i class="fas fa-heart"></i> ¡Obtener Ahora!
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="swiper-slide promo-card student-promo">
-                        <div class="promo-content">
-                            <span class="promo-tag">¡Plan Estudiante!</span>
-                            <h3>40% OFF</h3>
-                            <p>Descuento especial presentando tu credencial de estudiante</p>
-                            <ul>
-                                <li><i class="fas fa-check"></i> Horario flexible</li>
-                                <li><i class="fas fa-check"></i> Descuento en suplementos</li>
-                                <li><i class="fas fa-check"></i> Acceso a sala de estudios</li>
-                            </ul>
-                            <button class="promo-button" @click="selectPromo('estudiante')">
-                                <i class="fas fa-graduation-cap"></i> ¡Aprovechar!
-                            </button>
+                    
+                    <div class="swiper-slide">
+                        <div class="promo-card student-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Estudiantes!</span>
+                                <h3>40% OFF</h3>
+                                <p>Descuento especial presentando credencial de estudiante vigente</p>
+                                <button class="promo-button" data-promo="estudiante" @click="handlePromoClick('estudiante')">
+                                    <i class="fas fa-graduation-cap"></i> ¡Aprovechar!
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="swiper-slide promo-card early-promo">
-                        <div class="promo-content">
-                            <span class="promo-tag">¡Early Bird!</span>
-                            <h3>30% OFF</h3>
-                            <p>Membresía especial para entrenar de 6AM a 9AM</p>
-                            <ul>
-                                <li><i class="fas fa-check"></i> Desayuno saludable</li>
-                                <li><i class="fas fa-check"></i> Clases exclusivas</li>
-                                <li><i class="fas fa-check"></i> Estacionamiento gratis</li>
-                            </ul>
-                            <button class="promo-button" @click="selectPromo('early')">
-                                <i class="fas fa-sun"></i> ¡Despertar Activo!
-                            </button>
+
+                    <div class="swiper-slide">
+                        <div class="promo-card early-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Early Bird!</span>
+                                <h3>30% OFF</h3>
+                                <p>Entrena de 6AM a 9AM con precio especial</p>
+                                <button class="promo-button" data-promo="early" @click="handlePromoClick('early')">
+                                    <i class="fas fa-sun"></i> ¡Despertar Activo!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="promo-card">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Promo Familiar!</span>
+                                <h3>Pack Familiar</h3>
+                                <p>3 o más miembros con 40% de descuento cada uno</p>
+                                <button class="promo-button" data-promo="familiar" @click="handlePromoClick('familiar')">
+                                    <i class="fas fa-users"></i> ¡Unir Familia!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide">
+                        <div class="promo-card">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Adulto Mayor!</span>
+                                <h3>50% OFF</h3>
+                                <p>Descuento especial para mayores de 60 años</p>
+                                <button class="promo-button" data-promo="senior" @click="handlePromoClick('senior')">
+                                    <i class="fas fa-hand-holding-heart"></i> ¡Activarse!
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
         </section>
 
@@ -97,17 +114,24 @@
             <div class="plan-container">
                 <div v-for="plan in plans" 
                      :key="plan.id" 
-                     class="plan-card animate__animated animate__fadeInUp animate__delay-1s"
-                     :class="{ 'featured': plan.featured }">
+                     class="plan-card animate__animated animate__fadeInUp"
+                     :class="{ 
+                         'featured': plan.featured,
+                         'basic': plan.id === 1,
+                         'premium': plan.id === 2,
+                         'elite': plan.id === 3
+                     }">
                     <h3>{{ plan.name }}</h3>
                     <p class="price">{{ formatPrice(plan.price) }}<span>/mes</span></p>
                     <ul>
                         <li v-for="(feature, index) in plan.features" :key="index">
-                            <i class="fas fa-check"></i> {{ feature }}
+                            <i class="fas fa-check"></i>
+                            {{ feature }}
                         </li>
                     </ul>
-                    <button class="plan-button whatsapp-button" @click="selectPlan(plan)">
-                        <i class="fab fa-whatsapp"></i> Elegir Plan
+                    <button class="plan-button" @click="selectPlan(plan)">
+                        <i class="fab fa-whatsapp"></i> 
+                        Elegir {{ plan.name }}
                     </button>
                 </div>
             </div>

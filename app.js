@@ -71,6 +71,16 @@ createApp({
                     name: 'Plan Early Bird',
                     discount: '30% OFF',
                     price: 19990
+                },
+                familiar: {
+                    name: 'Pack Familiar',
+                    discount: '40% OFF por persona',
+                    price: 29990
+                },
+                senior: {
+                    name: 'Plan Adulto Mayor',
+                    discount: '50% OFF',
+                    price: 12990
                 }
             }
         }
@@ -173,25 +183,65 @@ createApp({
             return message;
         },
 
+        handlePromoClick(promoType) {
+            // Verificar que el promoType existe
+            if (this.promos[promoType]) {
+                this.selectedPlan = {
+                    name: this.promos[promoType].name,
+                    price: this.promos[promoType].price,
+                    features: [
+                        this.promos[promoType].discount,
+                        'Acceso completo a instalaciones',
+                        'Evaluación inicial gratuita',
+                        'Plan personalizado'
+                    ],
+                    isPromo: true,
+                    promoType: promoType
+                };
+                this.showModal = true;
+            }
+        },
+
         async procesarSuscripcion() {
             const button = event.target;
             button.classList.add('loading');
             try {
-                const message = this.formatWhatsAppMessage(this.formData, 'subscription');
+                const isPromo = this.selectedPlan.isPromo;
+                const message = isPromo ? 
+                    `*¡Hola! Me interesa la promoción ${this.selectedPlan.name}* 🏋️‍♂️%0A%0A`+
+                    `*Datos de contacto:*%0A`+
+                    `👤 Nombre: ${this.formData.nombre}%0A`+
+                    `📧 Email: ${this.formData.email}%0A`+
+                    `📞 Teléfono: ${this.formData.telefono}%0A%0A`+
+                    `*Promoción:* ${this.selectedPlan.features[0]}%0A`+
+                    `*Precio:* ${this.formatPrice(this.selectedPlan.price)}/mes` :
+                    this.formatWhatsAppMessage(this.formData, 'subscription');
+
                 const whatsappURL = `https://wa.me/+56912345678?text=${message}`;
-                
-                // Abrir WhatsApp en una nueva ventana pequeña
-                const whatsappWindow = window.open(whatsappURL, 'whatsapp', 
-                    'width=800,height=600,toolbar=0,menubar=0,location=0');
+                window.open(whatsappURL, '_blank');
                 
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 this.showModal = false;
                 this.formData = { nombre: '', email: '', telefono: '' };
+                
+                // Mostrar mensaje de éxito
+                this.showSuccessMessage('¡Mensaje enviado! Te contactaremos pronto.');
             } catch (error) {
                 alert('Hubo un error. Por favor intenta nuevamente.');
             } finally {
                 button.classList.remove('loading');
             }
+        },
+
+        showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.textContent = message;
+            document.body.appendChild(successDiv);
+
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
         },
 
         async submitContactForm() {
@@ -250,31 +300,55 @@ createApp({
             }
         });
 
-        // Inicializar Swiper
-        new Swiper('.promotionsSwiper', {
-            effect: 'cards',
-            grabCursor: true,
-            centeredSlides: true,
+        // Configuración actualizada del Swiper con autoplay y mejor manejo de eventos
+        const swiper = new Swiper('.promotionsSwiper', {
             slidesPerView: 'auto',
-            spaceBetween: 30,
+            centeredSlides: false,
+            spaceBetween: 15,
+            grabCursor: true,
+            initialSlide: 0,
+            loop: true, // Habilitar loop infinito
+            autoplay: {
+                delay: 3000, // Cambiar cada 3 segundos
+                disableOnInteraction: false, // Continuar después de interacción
+                pauseOnMouseEnter: true // Pausar cuando el mouse está encima
+            },
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
             },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-            },
             breakpoints: {
-                640: {
-                    slidesPerView: 1,
+                320: {
+                    slidesPerView: 1.2,
+                    spaceBetween: 10,
+                },
+                480: {
+                    slidesPerView: 1.5,
+                    spaceBetween: 15,
                 },
                 768: {
-                    slidesPerView: 2,
+                    slidesPerView: 2.2,
+                    spaceBetween: 20,
                 },
                 1024: {
                     slidesPerView: 3,
-                },
+                    spaceBetween: 30,
+                    centeredSlides: true,
+                }
+            },
+            on: {
+                click: (swiper, event) => {
+                    const clickedSlide = event.target.closest('.swiper-slide');
+                    if (clickedSlide) {
+                        const promoButton = clickedSlide.querySelector('.promo-button');
+                        if (promoButton) {
+                            const promoType = promoButton.dataset.promo;
+                            if (promoType) {
+                                this.handlePromoClick(promoType);
+                            }
+                        }
+                    }
+                }
             }
         });
 
