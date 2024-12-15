@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - GymFit</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="noticias.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">GymFit</div>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="index.html#plans">Planes</a>
+            <a href="index.html#features">Beneficios</a>
+            <a href="noticias.html" class="active">Noticias</a>
+            <a href="index.html#contact">Contacto</a>
+        </div>
+        <div class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="menu-overlay"></div>
+    </nav>
+
+    <div class="news-hero">
+        <h1>Noticias y Eventos</h1>
+        <p>Mantente al día con las últimas novedades de GymFit</p>
+        <div class="news-categories">
+            <a href="#" class="active">Todo</a>
+            <a href="#">Eventos</a>
+            <a href="#">Clases</a>
+            <a href="#">Servicios</a>
+            <a href="#">Avisos</a>
+        </div>
+    </div>
+
+    <main class="news-container">
+        <article class="news-card featured">
+            <div class="news-image">
+                <img src="https://images.unsplash.com/photo-1574680096145-d05b474e2155" alt="Nuevo Espacio Funcional">
+                <span class="news-tag">¡Destacado!</span>
+            </div>
+            <div class="news-content">
+                <h2>Inauguramos Nueva Área de Entrenamiento Funcional</h2>
+                <p class="news-date"><i class="far fa-calendar"></i> 15 de Marzo, 2024</p>
+                <p>Nos complace anunciar la apertura de nuestra nueva área de entrenamiento funcional de 200m². Este espacio cuenta con equipamiento de última generación, incluyendo racks de crossfit, área de peso libre y zona de cardio HIIT.</p>
+                <a href="#" class="read-more" data-id="1">Leer más <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </article>
+
+        <div id="news-list" class="news-grid">
+            <article class="news-card">
+                <div class="news-image">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b" alt="Clase de Yoga">
+                    <span class="news-tag">Clases</span>
+                </div>
+                <div class="news-content">
+                    <h3>Nuevas Clases de Yoga Matutino</h3>
+                    <p class="news-date"><i class="far fa-calendar"></i> 12 de Marzo, 2024</p>
+                    <p>Iniciamos nuestras sesiones de yoga matutino. Únete a nosotros todos los martes y jueves de 7:00 a 8:00 AM.</p>
+                    <a href="#" class="read-more" data-id="2">Leer más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="news-image">
+                    <img src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3" alt="Nutricionista">
+                    <span class="news-tag">Servicios</span>
+                </div>
+                <div class="news-content">
+                    <h3>Nueva Nutricionista se Une a Nuestro Equipo</h3>
+                    <p class="news-date"><i class="far fa-calendar"></i> 10 de Marzo, 2024</p>
+                    <p>Damos la bienvenida a la Dra. María González, especialista en nutrición deportiva, quien ofrecerá asesorías personalizadas.</p>
+                    <a href="#" class="read-more" data-id="3">Leer más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="news-image">
+                    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07e" alt="Competencia">
+                    <span class="news-tag">Eventos</span>
+                </div>
+                <div class="news-content">
+                    <h3>Próximo Desafío GymFit: Inscripciones Abiertas</h3>
+                    <p class="news-date"><i class="far fa-calendar"></i> 8 de Marzo, 2024</p>
+                    <p>¡Prepárate para nuestro desafío trimestral! Competencia interna con grandes premios. Inscripciones hasta el 20 de marzo.</p>
+                    <a href="#" class="read-more" data-id="4">Leer más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+
+            <article class="news-card maintenance">
+                <div class="news-image">
+                    <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f" alt="Mantenimiento">
+                    <span class="news-tag">Aviso</span>
+                </div>
+                <div class="news-content">
+                    <h3>Mantenimiento Programado: Área de Pesas</h3>
+                    <p class="news-date"><i class="far fa-calendar"></i> 5 de Marzo, 2024</p>
+                    <p>El área de pesas estará en mantenimiento el próximo domingo 17 de marzo de 00:00 a 06:00 hrs.</p>
+                    <a href="#" class="read-more" data-id="5">Leer más <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+        </div>
+
+        <div id="full-article" class="full-article" style="display: none;">
+            <button class="back-button"><i class="fas fa-arrow-left"></i> Volver a noticias</button>
+            <article class="article-content">
+                <!-- El contenido se cargará dinámicamente aquí -->
+            </article>
+        </div>
+
+        <div class="newsletter-section">
+            <h2>Suscríbete a Nuestro Newsletter</h2>
+            <p>Recibe las últimas noticias y promociones directamente en tu correo</p>
+            <form class="newsletter-form">
+                <input type="email" placeholder="Tu correo electrónico" required>
+                <button type="submit">Suscribirse <i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GymFit</h3>
+                <p>Transforma tu vida con nuestras instalaciones premium</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <a href="index.html">Inicio</a>
+                <a href="index.html#plans">Planes</a>
+                <a href="noticias.html">Noticias</a>
+                <a href="index.html#contact">Contacto</a>
+            </div>
+            <div class="footer-section">
+                <h3>Información de Contacto</h3>
+                <p><i class="fas fa-phone"></i> +56 2 2123 4567</p>
+                <p><i class="fas fa-map-marker-alt"></i> Av. Providencia 1234, Santiago</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 GymFit. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="noticias.js"></script>
+</body>
+</html>

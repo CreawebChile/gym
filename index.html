@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GymFit - Transforma tu Vida</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <nav class="navbar animate__animated animate__fadeIn" :class="{ 'scrolled': hasScrolled }">
+            <div class="logo">GymFit</div>
+            <div class="nav-links" :class="{ 'active': isMenuOpen }">
+                <a href="#home" @click="closeMenu">Inicio</a>
+                <a href="#plans" @click="closeMenu">Planes</a>
+                <a href="#features" @click="closeMenu">Beneficios</a>
+                <a href="noticias.html" @click="closeMenu">Noticias</a>
+                <a href="#contact" @click="closeMenu">Contacto</a>
+            </div>
+            <div class="menu-btn" :class="{ 'active': isMenuOpen }" @click="toggleMenu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="menu-overlay" :class="{ 'active': isMenuOpen }" @click="closeMenu"></div>
+        </nav>
+
+        <section id="home" class="hero">
+            <div class="hero-content animate__animated animate__fadeInUp">
+                <h1>Transforma tu Vida</h1>
+                <p>Únete a GymFit y comienza tu viaje fitness hoy</p>
+                <button class="cta-button" @click="scrollToPlans">Comenzar Ahora</button>
+            </div>
+        </section>
+
+        <section class="promotions">
+            <h2 class="animate__animated animate__fadeIn">Promociones Especiales</h2>
+            <div class="swiper promotionsSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide promo-card">
+                        <div class="promo-content">
+                            <span class="promo-tag">¡Plan Parejas!</span>
+                            <h3>2x1 en Membresías</h3>
+                            <p>Entrena con tu pareja y obtén 50% de descuento en la segunda membresía</p>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Acceso ilimitado para ambos</li>
+                                <li><i class="fas fa-check"></i> 1 clase grupal gratis</li>
+                                <li><i class="fas fa-check"></i> Evaluación física inicial</li>
+                            </ul>
+                            <button class="promo-button" @click="selectPromo('parejas')">
+                                <i class="fas fa-heart"></i> ¡Obtener Ahora!
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide promo-card student-promo">
+                        <div class="promo-content">
+                            <span class="promo-tag">¡Plan Estudiante!</span>
+                            <h3>40% OFF</h3>
+                            <p>Descuento especial presentando tu credencial de estudiante</p>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Horario flexible</li>
+                                <li><i class="fas fa-check"></i> Descuento en suplementos</li>
+                                <li><i class="fas fa-check"></i> Acceso a sala de estudios</li>
+                            </ul>
+                            <button class="promo-button" @click="selectPromo('estudiante')">
+                                <i class="fas fa-graduation-cap"></i> ¡Aprovechar!
+                            </button>
+                        </div>
+                    </div>
+                    <div class="swiper-slide promo-card early-promo">
+                        <div class="promo-content">
+                            <span class="promo-tag">¡Early Bird!</span>
+                            <h3>30% OFF</h3>
+                            <p>Membresía especial para entrenar de 6AM a 9AM</p>
+                            <ul>
+                                <li><i class="fas fa-check"></i> Desayuno saludable</li>
+                                <li><i class="fas fa-check"></i> Clases exclusivas</li>
+                                <li><i class="fas fa-check"></i> Estacionamiento gratis</li>
+                            </ul>
+                            <button class="promo-button" @click="selectPromo('early')">
+                                <i class="fas fa-sun"></i> ¡Despertar Activo!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </section>
+
+        <section id="plans" class="pricing">
+            <h2 class="animate__animated animate__fadeIn">Planes de Membresía</h2>
+            <div class="plan-container">
+                <div v-for="plan in plans" 
+                     :key="plan.id" 
+                     class="plan-card animate__animated animate__fadeInUp animate__delay-1s"
+                     :class="{ 'featured': plan.featured }">
+                    <h3>{{ plan.name }}</h3>
+                    <p class="price">{{ formatPrice(plan.price) }}<span>/mes</span></p>
+                    <ul>
+                        <li v-for="(feature, index) in plan.features" :key="index">
+                            <i class="fas fa-check"></i> {{ feature }}
+                        </li>
+                    </ul>
+                    <button class="plan-button whatsapp-button" @click="selectPlan(plan)">
+                        <i class="fab fa-whatsapp"></i> Elegir Plan
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal de suscripción -->
+        <div class="modal" v-if="showModal" @click.self="showModal = false">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Plan {{ selectedPlan?.name }}</h3>
+                    <span class="price-tag">{{ formatPrice(selectedPlan?.price) }}/mes</span>
+                </div>
+                <form @submit.prevent="procesarSuscripcion">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Nombre completo</label>
+                        <input v-model="formData.nombre" type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input v-model="formData.email" type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> WhatsApp</label>
+                        <input v-model="formData.telefono" type="tel" required 
+                               pattern="[0-9]{9}" title="Ingresa 9 dígitos">
+                    </div>
+                    <button type="submit" class="whatsapp-button">
+                        <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+                    </button>
+                    <button type="button" class="cancel-button" @click="showModal = false">
+                        Cancelar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <section id="features" class="features">
+            <h2 class="animate__animated animate__fadeIn">¿Por Qué Elegirnos?</h2>
+            <div class="features-grid">
+                <div class="feature-card animate__animated animate__fadeInUp">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Equipamiento Moderno</h3>
+                    <p>Instalaciones y equipos de última generación</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp">
+                    <i class="fas fa-users"></i>
+                    <h3>Entrenadores Expertos</h3>
+                    <p>Profesionales certificados para guiarte</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp">
+                    <i class="fas fa-clock"></i>
+                    <h3>Acceso 24/7</h3>
+                    <p>Entrena según tu horario</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Eliminar toda la sección stats -->
+        <section id="contact" class="contact">
+            <h2 class="animate__animated animate__fadeIn">Contáctanos</h2>
+            <form @submit.prevent="submitContactForm" class="contact-form animate__animated animate__fadeInUp">
+                <input v-model="contactForm.nombre" type="text" placeholder="Nombre" required>
+                <input v-model="contactForm.email" type="email" placeholder="Correo" required>
+                <select v-model="contactForm.plan" required>
+                    <option value="">Seleccionar Plan</option>
+                    <option v-for="plan in plans" :key="plan.id" :value="plan.id">
+                        {{ plan.name }}
+                    </option>
+                </select>
+                <textarea v-model="contactForm.mensaje" placeholder="Mensaje" required></textarea>
+                <button type="submit" :disabled="sending">
+                    {{ sending ? 'Enviando...' : 'Enviar Mensaje' }}
+                </button>
+            </form>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>GymFit</h3>
+                    <p>Transforma tu vida con nuestras instalaciones premium</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <a href="#home">Inicio</a>
+                    <a href="#plans">Planes</a>
+                    <a href="#features">Beneficios</a>
+                    <a href="#contact">Contacto</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Información de Contacto</h3>
+                    <p><i class="fas fa-phone"></i> +56 2 2123 4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Providencia 1234, Santiago</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GymFit. Todos los derechos reservados.</p>
+                <p>Diseñado por <a href="#" class="creaweb-link">CreaWeb Chile</a></p>
+            </div>
+        </footer>
+    </div>
+    <script src="app.js" type="module"></script>
+</body>
+</html>
