@@ -101,10 +101,37 @@ createApp({
         toggleMenu() {
             this.isMenuOpen = !this.isMenuOpen;
             document.body.style.overflow = this.isMenuOpen ? 'hidden' : '';
+            
+            // Prevenir desplazamiento en iOS
+            if (this.isMenuOpen) {
+                document.body.style.position = 'fixed';
+                document.body.style.width = '100%';
+            } else {
+                document.body.style.position = '';
+                document.body.style.width = '';
+            }
+            
+            // Añadir clase para animación
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach((link, index) => {
+                if (this.isMenuOpen) {
+                    link.style.transitionDelay = `${0.1 * index}s`;
+                } else {
+                    link.style.transitionDelay = '0s';
+                }
+            });
         },
         closeMenu() {
             this.isMenuOpen = false;
             document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            
+            // Resetear delays
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach(link => {
+                link.style.transitionDelay = '0s';
+            });
         },
         initIntersectionObserver() {
             const options = {
@@ -186,6 +213,22 @@ createApp({
                 this.sending = false;
                 button.classList.remove('loading');
             }
+        },
+
+        // Optimizar el manejo de scroll en móviles
+        handleScroll() {
+            if (window.innerWidth <= 768) {
+                const currentScroll = window.scrollY;
+                this.hasScrolled = currentScroll > 50;
+                
+                // Ocultar/mostrar navbar al hacer scroll
+                if (currentScroll > this.lastScroll && currentScroll > 100) {
+                    document.querySelector('.navbar').style.transform = 'translateY(-100%)';
+                } else {
+                    document.querySelector('.navbar').style.transform = 'translateY(0)';
+                }
+                this.lastScroll = currentScroll;
+            }
         }
     },
     mounted() {
@@ -233,6 +276,23 @@ createApp({
                     slidesPerView: 3,
                 },
             }
+        });
+
+        // Mejorar rendimiento del scroll
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    this.handleScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Manejar cambios de orientación
+        window.addEventListener('orientationchange', () => {
+            if (this.isMenuOpen) this.closeMenu();
         });
     }
 }).mount('#app')
