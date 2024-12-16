@@ -82,7 +82,9 @@ createApp({
                     discount: '50% OFF',
                     price: 12990
                 }
-            }
+            },
+            lastScroll: 0, // Agregar esta variable que faltaba
+            theme: localStorage.getItem('theme') || 'auto'
         }
     },
     methods: {
@@ -279,6 +281,16 @@ createApp({
                 }
                 this.lastScroll = currentScroll;
             }
+        },
+
+        toggleTheme() {
+            if (this.theme === 'auto' || this.theme === 'dark') {
+                this.theme = 'light';
+            } else {
+                this.theme = 'dark';
+            }
+            localStorage.setItem('theme', this.theme);
+            document.documentElement.setAttribute('data-theme', this.theme);
         }
     },
     mounted() {
@@ -368,5 +380,10 @@ createApp({
         window.addEventListener('orientationchange', () => {
             if (this.isMenuOpen) this.closeMenu();
         });
+
+        // Configurar el tema inicial
+        if (this.theme !== 'auto') {
+            document.documentElement.setAttribute('data-theme', this.theme);
+        }
     }
 }).mount('#app')

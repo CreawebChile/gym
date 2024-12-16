@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GymFit - Transforma tu Vida</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="app" v-cloak>
@@ -21,6 +21,9 @@
                 <a href="#features" @click="closeMenu">Beneficios</a>
                 <a href="noticias.html" @click="closeMenu">Noticias</a>
                 <a href="#contact" @click="closeMenu">Contacto</a>
+                <button class="theme-toggle" @click="toggleTheme" aria-label="Cambiar tema">
+                    <i :class="theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'"></i>
+                </button>
             </div>
             <div class="menu-btn" :class="{ 'active': isMenuOpen }" @click="toggleMenu">
                 <i class="fas fa-bars"></i>

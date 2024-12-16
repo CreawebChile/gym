@@ -1207,36 +1207,130 @@ body {
 @media (prefers-color-scheme: dark) {
     :root {
         --light-gray: #1a1a1a;
-        --white: #242424;
-        --secondary-color: #ecf0f1;
+        --white: #1f1f1f;
+        --secondary-color: #ffffff;
+        --mobile-menu-bg: rgba(31, 31, 31, 0.98);
+        --mobile-text-color: #ffffff;
+        --bg-basic: #1a2f23;
+        --bg-premium: #1a1f3d;
+        --bg-elite: #1f2937;
     }
 
     body {
-        color: #ecf0f1;
+        color: #ffffff;
     }
 
     .navbar {
-        background: rgba(36, 36, 36, 0.95);
+        background: rgba(31, 31, 31, 0.95);
     }
 
     .nav-links a {
-        color: #ecf0f1;
+        color: #ffffff;
     }
 
     .plan-card,
     .feature-card {
         background: #2a2a2a;
-        border-color: rgba(46, 204, 113, 0.2);
+        border: 1px solid rgba(46, 204, 113, 0.2);
+    }
+
+    .plan-card h3,
+    .feature-card h3 {
+        color: #ffffff;
+    }
+
+    .plan-card ul li,
+    .feature-card p {
+        color: #e0e0e0;
     }
 
     .modal-content {
-        background: #242424;
+        background: #2a2a2a;
+        color: #ffffff;
+    }
+
+    .modal-content .form-group label {
+        color: #ffffff;
     }
 
     input, select, textarea {
         background: #333;
-        color: #ecf0f1;
+        color: #ffffff;
         border-color: #444;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #999;
+    }
+
+    .news-card {
+        background: #2a2a2a;
+    }
+
+    .news-card .news-content h3 {
+        color: #ffffff;
+    }
+
+    .news-card .news-content p {
+        color: #e0e0e0;
+    }
+
+    .cancel-button {
+        background: #333;
+        color: #ffffff;
+    }
+
+    .newsletter-section {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .success-message {
+        background: var(--primary-color);
+        color: #ffffff;
+    }
+
+    /* Ajustes de contraste para los gradientes en modo oscuro */
+    .plan-card.basic::after {
+        background: var(--gradient-basic);
+        opacity: 0.8;
+    }
+
+    .plan-card.premium::after {
+        background: var(--gradient-premium);
+        opacity: 0.8;
+    }
+
+    .plan-card.elite::after {
+        background: var(--gradient-elite);
+        opacity: 0.8;
+    }
+}
+
+/* Permitir al usuario forzar el modo claro */
+@media (prefers-color-scheme: dark) {
+    [data-theme="light"] {
+        --light-gray: #f8f9fa;
+        --white: #ffffff;
+        --secondary-color: #2c3e50;
+        --mobile-menu-bg: rgba(255, 255, 255, 0.98);
+        --mobile-text-color: #333;
+        --bg-basic: #f0fff6;
+        --bg-premium: #f0f3ff;
+        --bg-elite: #f5f5f7;
+    }
+
+    [data-theme="light"] body {
+        color: #333;
+    }
+
+    [data-theme="light"] .navbar {
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    [data-theme="light"] .nav-links a {
+        color: var(--secondary-color);
     }
 }
 

@@ -154,8 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     }
 
-    menuBtn.addEventListener('click', toggleMenu);
-    menuOverlay.addEventListener('click', toggleMenu);
+    menuBtn.addEventListener('click', toggleMenu);  // Agregar punto y coma
+    menuOverlay.addEventListener('click', toggleMenu);  // Agregar punto y coma
 
     // Close menu on link click
     navLinks.querySelectorAll('a').forEach(link => {

@@ -26,4 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Scroll animations
-    const scrollElements = document.querySelectorAll('.plan
+    const scrollElements = document.querySelectorAll('.plan-card, .feature-card');
+    scrollElements.forEach(element => {
+        element.classList.add('animate__animated', 'animate__fadeInUp');
+    });
+});
